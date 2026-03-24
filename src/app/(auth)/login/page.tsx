@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { appMeta } from "@/config/app-meta";
 import { LoginForm } from "@/components/auth/login-form";
 
@@ -16,12 +17,19 @@ export default function LoginPage() {
                     <div className="hidden flex-col justify-between bg-gradient-to-br from-cyan-400/15 via-sky-400/10 to-fuchsia-500/15 p-10 md:flex lg:p-12">
                         <div className="space-y-6">
                             <div className="inline-flex w-fit rounded-2xl border border-cyan-300/20 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100 shadow-lg shadow-cyan-900/20">
-                                FiratSaglikTakip
+                                Fırat Üniversitesi Sağlık Takip Sistemi
                             </div>
 
                             <div className="space-y-4">
-                                <div className="flex h-24 w-24 items-center justify-center rounded-[1.75rem] border border-white/10 bg-white/10 text-3xl font-black text-white shadow-xl">
-                                    FÜ
+                                <div className="flex h-24 w-24 items-center justify-center rounded-[1.75rem] border border-white/10 bg-white/10 shadow-xl">
+                                    <Image
+                                        src="/logo.ico"
+                                        alt="Fırat Üniversitesi Logosu"
+                                        width={72}
+                                        height={72}
+                                        className="h-[72px] w-[72px] object-contain"
+                                        priority
+                                    />
                                 </div>
 
                                 <div className="space-y-3">
@@ -50,10 +58,6 @@ export default function LoginPage() {
                     <div className="flex items-center justify-center px-5 py-8 sm:px-8 sm:py-10 lg:px-12">
                         <div className="w-full max-w-md">
                             <div className="mb-8 space-y-4 text-center md:text-left">
-                                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[1.6rem] border border-cyan-300/20 bg-white/10 text-2xl font-black text-cyan-100 shadow-xl md:mx-0">
-                                    FÜ
-                                </div>
-
                                 <div>
                                     <h2 className="text-3xl font-black text-white lg:text-4xl">
                                         Giriş Yap
