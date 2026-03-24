@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth/current-user";
 import { User } from "@/models/User";
 import { ProfileForm } from "@/components/profile/profile-form";
 import { PasswordForm } from "@/components/profile/password-form";
+import { LogoutButton } from "@/components/profile/logout-button";
 
 export default async function ProfilePage() {
     const currentUser = await getCurrentUser();
@@ -22,13 +23,17 @@ export default async function ProfilePage() {
 
     return (
         <div className="space-y-8">
-            <div>
-                <h2 className="bg-gradient-to-r from-sky-700 via-cyan-600 to-fuchsia-600 bg-clip-text text-2xl font-black text-transparent">
-                    Profil Ayarları
-                </h2>
-                <p className="mt-1 text-sm text-slate-500">
-                    Kullanıcı bilgilerinizi ve şifrenizi buradan güncelleyebilirsiniz.
-                </p>
+            <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                <div>
+                    <h2 className="bg-gradient-to-r from-sky-700 via-cyan-600 to-fuchsia-600 bg-clip-text text-2xl font-black text-transparent">
+                        Profil Ayarları
+                    </h2>
+                    <p className="mt-1 text-sm text-slate-500">
+                        Kullanıcı bilgilerinizi ve şifrenizi buradan güncelleyebilirsiniz.
+                    </p>
+                </div>
+
+                <LogoutButton />
             </div>
 
             <div className="grid gap-8 xl:grid-cols-2">
