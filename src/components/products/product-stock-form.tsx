@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 type ProductItem = {
@@ -17,6 +17,10 @@ export function ProductStockForm() {
     const [products, setProducts] = useState<ProductItem[]>([]);
     const [loadingData, setLoadingData] = useState(true);
 
+    const [barcode, setBarcode] = useState("");
+    const [barcodeMessage, setBarcodeMessage] = useState("");
+    const [barcodeError, setBarcodeError] = useState("");
+
     const [form, setForm] = useState({
         productId: "",
         transactionType: "IN" as "IN" | "OUT" | "ADJUSTMENT",
@@ -27,6 +31,8 @@ export function ProductStockForm() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+
+    const lookupTimerRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         async function loadProducts() {
@@ -43,6 +49,64 @@ export function ProductStockForm() {
 
         loadProducts();
     }, []);
+
+    const selectedProduct = useMemo(
+        () => products.find((item) => item._id === form.productId) ?? null,
+        [products, form.productId]
+    );
+
+    function applyBarcodeLookup(rawBarcode: string) {
+        const normalized = rawBarcode.trim();
+
+        setBarcodeError("");
+        setBarcodeMessage("");
+
+        if (!normalized) return;
+
+        const matchedProduct = products.find((item) => item.barcode === normalized);
+
+        if (!matchedProduct) {
+            setBarcodeError("Bu barkoda ait ürün bulunamadı.");
+            return;
+        }
+
+        setForm((prev) => ({
+            ...prev,
+            productId: matchedProduct._id,
+        }));
+
+        setBarcodeMessage(`${matchedProduct.name} ürünü otomatik seçildi.`);
+    }
+
+    useEffect(() => {
+        if (!barcode.trim() || loadingData || products.length === 0) {
+            return;
+        }
+
+        if (lookupTimerRef.current) {
+            clearTimeout(lookupTimerRef.current);
+        }
+
+        lookupTimerRef.current = setTimeout(() => {
+            applyBarcodeLookup(barcode);
+        }, 150);
+
+        return () => {
+            if (lookupTimerRef.current) {
+                clearTimeout(lookupTimerRef.current);
+            }
+        };
+    }, [barcode, loadingData, products]);
+
+    function handleBarcodeKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            if (lookupTimerRef.current) {
+                clearTimeout(lookupTimerRef.current);
+            }
+            applyBarcodeLookup(barcode);
+        }
+    }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -67,6 +131,9 @@ export function ProductStockForm() {
             }
 
             setMessage("Ürün stok hareketi başarıyla kaydedildi.");
+            setBarcode("");
+            setBarcodeMessage("");
+            setBarcodeError("");
             setForm({
                 productId: "",
                 transactionType: "IN",
@@ -87,6 +154,67 @@ export function ProductStockForm() {
             onSubmit={handleSubmit}
             className="space-y-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
         >
+            <div className="rounded-3xl border border-cyan-200 bg-cyan-50/60 p-5">
+                <div className="space-y-2">
+                    <label className="text-sm font-semibold text-slate-700">
+                        Barkod ile ürün bul
+                    </label>
+
+                    <div className="flex flex-col gap-3 md:flex-row">
+                        <input
+                            value={barcode}
+                            onChange={(e) => setBarcode(e.target.value)}
+                            onKeyDown={handleBarcodeKeyDown}
+                            placeholder="Ürün barkodunu okutun veya yazın"
+                            className="flex-1 rounded-2xl border border-cyan-200 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-400"
+                        />
+
+
+                    </div>
+
+                    <p className="text-xs leading-5 text-slate-500">
+                        Barkod okutulduğu anda ilgili ürün otomatik seçilir. Dilerseniz aşağıdan
+                        manuel seçim yapmaya devam edebilirsiniz.
+                    </p>
+                </div>
+
+                {barcodeMessage ? (
+                    <div className="mt-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                        {barcodeMessage}
+                    </div>
+                ) : null}
+
+                {barcodeError ? (
+                    <div className="mt-3 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                        {barcodeError}
+                    </div>
+                ) : null}
+            </div>
+
+            {selectedProduct ? (
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
+                    <h3 className="text-sm font-bold text-slate-800">Seçilen Ürün</h3>
+                    <div className="mt-2 grid gap-2 text-sm text-slate-600 md:grid-cols-2">
+                        <div>
+                            <span className="font-semibold text-slate-800">Ürün:</span>{" "}
+                            {selectedProduct.name}
+                        </div>
+                        <div>
+                            <span className="font-semibold text-slate-800">Tür:</span>{" "}
+                            {selectedProduct.type}
+                        </div>
+                        <div>
+                            <span className="font-semibold text-slate-800">Barkod:</span>{" "}
+                            {selectedProduct.barcode}
+                        </div>
+                        <div>
+                            <span className="font-semibold text-slate-800">Mevcut Stok:</span>{" "}
+                            {selectedProduct.stockQuantity}
+                        </div>
+                    </div>
+                </div>
+            ) : null}
+
             <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                     <label className="text-sm font-semibold text-slate-700">Ürün</label>
