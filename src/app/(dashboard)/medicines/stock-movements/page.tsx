@@ -11,7 +11,7 @@ export default async function MedicineStockMovementsPage() {
                     Stok Hareketleri
                 </h2>
                 <p className="mt-1 text-sm text-slate-500">
-                    Parti bazlı stok girişi, çıkışı ve düzeltme işlemlerini buradan yönetin.
+                    Barkod bazlı stok girişi, çıkışı ve düzeltme işlemlerini buradan yönetin.
                 </p>
             </div>
 
@@ -28,6 +28,7 @@ export default async function MedicineStockMovementsPage() {
                         <tr>
                             <th className="px-4 py-3 font-semibold">Tarih</th>
                             <th className="px-4 py-3 font-semibold">İlaç</th>
+                            <th className="px-4 py-3 font-semibold">Barkod</th>
                             <th className="px-4 py-3 font-semibold">İşlem</th>
                             <th className="px-4 py-3 font-semibold">Miktar</th>
                             <th className="px-4 py-3 font-semibold">Kullanıcı</th>
@@ -43,6 +44,7 @@ export default async function MedicineStockMovementsPage() {
                                 <td className="px-4 py-3 font-semibold text-slate-900">
                                     {item.medicineName}
                                 </td>
+                                <td className="px-4 py-3 text-slate-700">{item.barcode}</td>
                                 <td className="px-4 py-3 text-slate-700">
                                     {item.transactionType === "IN"
                                         ? "Giriş"
