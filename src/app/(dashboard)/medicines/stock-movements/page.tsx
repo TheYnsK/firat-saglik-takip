@@ -28,7 +28,6 @@ export default async function MedicineStockMovementsPage() {
                         <tr>
                             <th className="px-4 py-3 font-semibold">Tarih</th>
                             <th className="px-4 py-3 font-semibold">İlaç</th>
-                            <th className="px-4 py-3 font-semibold">Parti</th>
                             <th className="px-4 py-3 font-semibold">İşlem</th>
                             <th className="px-4 py-3 font-semibold">Miktar</th>
                             <th className="px-4 py-3 font-semibold">Kullanıcı</th>
@@ -44,7 +43,6 @@ export default async function MedicineStockMovementsPage() {
                                 <td className="px-4 py-3 font-semibold text-slate-900">
                                     {item.medicineName}
                                 </td>
-                                <td className="px-4 py-3 text-slate-700">{item.batchNo}</td>
                                 <td className="px-4 py-3 text-slate-700">
                                     {item.transactionType === "IN"
                                         ? "Giriş"
