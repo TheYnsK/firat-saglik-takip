@@ -4,7 +4,6 @@ type BatchItem = {
     _id: string;
     medicineName: string;
     barcode: string;
-    batchNo: string;
     expiryDate: string;
     stockQuantity: number;
     receivedAt: string;
@@ -25,7 +24,6 @@ export function MedicineBatchTable({ items, showActions = false }: Props) {
                     <tr>
                         <th className="px-4 py-3 font-semibold">İlaç Adı</th>
                         <th className="px-4 py-3 font-semibold">Barkod</th>
-                        <th className="px-4 py-3 font-semibold">Parti No</th>
                         <th className="px-4 py-3 font-semibold">SKT</th>
                         <th className="px-4 py-3 font-semibold">Stok</th>
                         <th className="px-4 py-3 font-semibold">Giriş Tarihi</th>
@@ -41,7 +39,6 @@ export function MedicineBatchTable({ items, showActions = false }: Props) {
                                 {item.medicineName}
                             </td>
                             <td className="px-4 py-3 text-slate-700">{item.barcode}</td>
-                            <td className="px-4 py-3 text-slate-700">{item.batchNo}</td>
                             <td className="px-4 py-3 text-slate-700">
                                 {new Date(item.expiryDate).toLocaleDateString("tr-TR")}
                             </td>
@@ -66,10 +63,10 @@ export function MedicineBatchTable({ items, showActions = false }: Props) {
                     {items.length === 0 ? (
                         <tr>
                             <td
-                                colSpan={showActions ? 8 : 7}
+                                colSpan={showActions ? 7 : 6}
                                 className="px-4 py-10 text-center text-slate-500"
                             >
-                                Henüz parti kaydı bulunmuyor.
+                                Henüz kayıt bulunmuyor.
                             </td>
                         </tr>
                     ) : null}

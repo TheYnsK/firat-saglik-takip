@@ -17,7 +17,6 @@ type Props = {
     initialValues?: {
         medicineId: string;
         barcode: string;
-        batchNo: string;
         expiryDate: string;
         stockQuantity: number;
         receivedAt: string;
@@ -38,7 +37,6 @@ export function MedicineBatchForm({
     const [form, setForm] = useState({
         medicineId: initialValues?.medicineId ?? "",
         barcode: initialValues?.barcode ?? "",
-        batchNo: initialValues?.batchNo ?? "",
         expiryDate: initialValues?.expiryDate ?? "",
         stockQuantity: initialValues?.stockQuantity ?? 0,
         receivedAt: initialValues?.receivedAt ?? "",
@@ -94,15 +92,14 @@ export function MedicineBatchForm({
 
             setMessage(
                 mode === "edit"
-                    ? "Parti kaydı başarıyla güncellendi."
-                    : "Parti kaydı başarıyla eklendi."
+                    ? "Kayıt başarıyla güncellendi."
+                    : "Kayıt başarıyla eklendi."
             );
 
             if (mode === "create") {
                 setForm({
                     medicineId: "",
                     barcode: "",
-                    batchNo: "",
                     expiryDate: "",
                     stockQuantity: 0,
                     receivedAt: "",
@@ -186,16 +183,6 @@ export function MedicineBatchForm({
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold text-slate-700">Parti No</label>
-                        <input
-                            placeholder="Örn: PRT-2026-001"
-                            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-cyan-400 focus:bg-white"
-                            value={form.batchNo}
-                            onChange={(e) => setForm((p) => ({ ...p, batchNo: e.target.value }))}
-                        />
-                    </div>
-
-                    <div className="space-y-2">
                         <label className="text-sm font-semibold text-slate-700">
                             Son Kullanma Tarihi
                         </label>
@@ -228,7 +215,7 @@ export function MedicineBatchForm({
 
                     <div className="space-y-2">
                         <label className="text-sm font-semibold text-slate-700">
-                            Parti Giriş Tarihi
+                            Giriş Tarihi
                         </label>
                         <input
                             type="date"
@@ -245,7 +232,7 @@ export function MedicineBatchForm({
                     <label className="text-sm font-semibold text-slate-700">Not</label>
                     <textarea
                         rows={4}
-                        placeholder="Parti ile ilgili ek bilgi yazabilirsiniz."
+                        placeholder="Kayıt ile ilgili ek bilgi yazabilirsiniz."
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-cyan-400 focus:bg-white"
                         value={form.note}
                         onChange={(e) => setForm((p) => ({ ...p, note: e.target.value }))}
@@ -267,14 +254,14 @@ export function MedicineBatchForm({
                 <div className="flex flex-wrap gap-3">
                     <button
                         type="submit"
-                        disabled={loading || deleteLoading}
+                        disabled={loading}
                         className="rounded-2xl bg-gradient-to-r from-cyan-500 to-fuchsia-500 px-5 py-3 font-bold text-white shadow-md transition hover:scale-[1.01] disabled:opacity-60"
                     >
                         {loading
                             ? "Kaydediliyor..."
                             : mode === "edit"
-                                ? "Parti Kaydını Güncelle"
-                                : "Parti Kaydını Ekle"}
+                                ? "Kaydı Güncelle"
+                                : "Kaydı Ekle"}
                     </button>
 
                     {mode === "edit" ? (
@@ -292,8 +279,8 @@ export function MedicineBatchForm({
 
             <ConfirmDialog
                 open={confirmOpen}
-                title="Parti kaydını sil"
-                description="Bu parti kaydını silmek istediğinize emin misiniz? Silme işleminden sonra bu partiye ait bilgiler geri alınamaz."
+                title="Kayıdı sil"
+                description="Bu kaydı silmek istediğinize emin misiniz?"
                 confirmText="Evet, sil"
                 cancelText="Vazgeç"
                 loading={deleteLoading}

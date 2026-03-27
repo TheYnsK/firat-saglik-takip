@@ -7,7 +7,7 @@ export async function exportMedicineExpiredExcel() {
     const rows = summary.expiredList.map((item, index) => ({
         siraNo: index + 1,
         ilacAdi: item.medicineName,
-        partiNo: item.batchNo,
+        barkod: item.barcode ?? "",
         skt: item.expiryDate
             ? new Date(item.expiryDate).toLocaleDateString("tr-TR")
             : "",
@@ -20,7 +20,7 @@ export async function exportMedicineExpiredExcel() {
         columns: [
             { header: "Sıra No", key: "siraNo", width: 10 },
             { header: "İlaç Adı", key: "ilacAdi", width: 30 },
-            { header: "Parti No", key: "partiNo", width: 22 },
+            { header: "Barkod", key: "barkod", width: 22 },
             { header: "SKT", key: "skt", width: 18 },
             { header: "Stok", key: "stok", width: 12 },
         ],

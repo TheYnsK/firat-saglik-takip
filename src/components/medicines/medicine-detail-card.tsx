@@ -1,7 +1,6 @@
 type BatchDetail = {
     _id: string;
     barcode: string;
-    batchNo: string;
     expiryDate: string;
     stockQuantity: number;
     receivedAt: string;
@@ -71,7 +70,7 @@ export function MedicineDetailCard({ medicine, batches }: Props) {
 
             <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
                 <div className="border-b border-slate-200 px-6 py-4">
-                    <h4 className="text-lg font-bold text-slate-800">Parti Detayları</h4>
+                    <h4 className="text-lg font-bold text-slate-800">Kayıt Detayları</h4>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -79,7 +78,6 @@ export function MedicineDetailCard({ medicine, batches }: Props) {
                         <thead className="bg-slate-50 text-left text-slate-600">
                         <tr>
                             <th className="px-4 py-3 font-semibold">Barkod</th>
-                            <th className="px-4 py-3 font-semibold">Parti No</th>
                             <th className="px-4 py-3 font-semibold">SKT</th>
                             <th className="px-4 py-3 font-semibold">Stok</th>
                             <th className="px-4 py-3 font-semibold">Giriş Tarihi</th>
@@ -90,7 +88,6 @@ export function MedicineDetailCard({ medicine, batches }: Props) {
                         {batches.map((batch) => (
                             <tr key={batch._id} className="border-t border-slate-100">
                                 <td className="px-4 py-3 text-slate-700">{batch.barcode}</td>
-                                <td className="px-4 py-3 text-slate-700">{batch.batchNo}</td>
                                 <td className="px-4 py-3 text-slate-700">
                                     {new Date(batch.expiryDate).toLocaleDateString("tr-TR")}
                                 </td>
@@ -104,8 +101,8 @@ export function MedicineDetailCard({ medicine, batches }: Props) {
 
                         {batches.length === 0 ? (
                             <tr>
-                                <td colSpan={6} className="px-4 py-10 text-center text-slate-500">
-                                    Bu ilaç için parti kaydı bulunmuyor.
+                                <td colSpan={5} className="px-4 py-10 text-center text-slate-500">
+                                    Bu ilaç için kayıt bulunmuyor.
                                 </td>
                             </tr>
                         ) : null}

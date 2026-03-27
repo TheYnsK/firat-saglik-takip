@@ -40,7 +40,7 @@ export async function getMedicineDashboardSummary() {
     const expiringList = expiringItems.map((item: any) => ({
         _id: String(item._id),
         medicineName: item.medicineId?.name ?? "-",
-        batchNo: item.batchNo,
+        barcode: item.barcode ?? "",
         expiryDate:
             item.expiryDate instanceof Date
                 ? item.expiryDate.toISOString()
@@ -51,7 +51,7 @@ export async function getMedicineDashboardSummary() {
     const expiredList = expiredItems.map((item: any) => ({
         _id: String(item._id),
         medicineName: item.medicineId?.name ?? "-",
-        batchNo: item.batchNo,
+        barcode: item.barcode ?? "",
         expiryDate:
             item.expiryDate instanceof Date
                 ? item.expiryDate.toISOString()

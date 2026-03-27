@@ -1,8 +1,8 @@
 import { connectToDatabase } from "@/lib/db";
 import { Medicine } from "@/models/Medicine";
 import { MedicineBatch } from "@/models/MedicineBatch";
-import type { MedicineSummaryItem } from "@/types/medicine";
 import { MedicineTransaction } from "@/models/MedicineTransaction";
+import type { MedicineSummaryItem } from "@/types/medicine";
 import { Types } from "mongoose";
 
 export async function listMedicinesWithSummary(): Promise<MedicineSummaryItem[]> {
@@ -107,7 +107,6 @@ export async function listMedicineBatches() {
         medicineType: item.medicineId?.type ?? "-",
         medicineMeasure: item.medicineId?.measure ?? "-",
         barcode: item.barcode,
-        batchNo: item.batchNo,
         expiryDate:
             item.expiryDate instanceof Date
                 ? item.expiryDate.toISOString()
@@ -187,7 +186,6 @@ export async function getMedicineWithBatchesById(medicineId: string) {
         batches: batches.map((batch) => ({
             _id: String(batch._id),
             barcode: batch.barcode,
-            batchNo: batch.batchNo,
             expiryDate:
                 batch.expiryDate instanceof Date
                     ? batch.expiryDate.toISOString()
@@ -216,7 +214,7 @@ export async function listMedicineTransactions() {
         medicineId: String(item.medicineId?._id ?? ""),
         medicineName: item.medicineId?.name ?? "-",
         batchId: String(item.batchId?._id ?? ""),
-        batchNo: item.batchId?.batchNo ?? "-",
+        barcode: item.batchId?.barcode ?? "-",
         transactionType: item.transactionType,
         quantity: Number(item.quantity ?? 0),
         description: item.description ?? "",
@@ -278,7 +276,7 @@ export async function createMedicineTransaction(input: {
     return {
         transaction,
         medicineName: medicine.name,
-        batchNo: batch.batchNo,
+        barcode: batch.barcode,
         newStockQuantity: batch.stockQuantity,
     };
 }

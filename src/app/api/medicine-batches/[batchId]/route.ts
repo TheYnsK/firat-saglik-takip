@@ -26,7 +26,7 @@ export async function GET(_: Request, { params }: Params) {
         const item = await MedicineBatch.findById(batchId).lean();
 
         if (!item) {
-            return NextResponse.json({ message: "Parti bulunamadı." }, { status: 404 });
+            return NextResponse.json({ message: "Kayıt bulunamadı." }, { status: 404 });
         }
 
         return NextResponse.json({
@@ -38,7 +38,7 @@ export async function GET(_: Request, { params }: Params) {
         });
     } catch {
         return NextResponse.json(
-            { message: "Parti bilgisi alınırken hata oluştu." },
+            { message: "Kayıt bilgisi alınırken hata oluştu." },
             { status: 500 }
         );
     }
@@ -69,7 +69,6 @@ export async function PUT(request: Request, { params }: Params) {
             {
                 medicineId: parsed.data.medicineId,
                 barcode: parsed.data.barcode,
-                batchNo: parsed.data.batchNo,
                 expiryDate: new Date(parsed.data.expiryDate),
                 stockQuantity: parsed.data.stockQuantity,
                 receivedAt: new Date(parsed.data.receivedAt),
@@ -80,7 +79,7 @@ export async function PUT(request: Request, { params }: Params) {
         ).lean();
 
         if (!batch) {
-            return NextResponse.json({ message: "Parti bulunamadı." }, { status: 404 });
+            return NextResponse.json({ message: "Kayıt bulunamadı." }, { status: 404 });
         }
 
         const medicine = await Medicine.findById(parsed.data.medicineId).lean();
@@ -92,17 +91,17 @@ export async function PUT(request: Request, { params }: Params) {
             action: "UPDATE",
             targetType: "MedicineBatch",
             targetId: String(batch._id),
-            messageTr: `${user.fullName}, ${medicine?.name ?? "-"} ilacına ait ${batch.batchNo} partisinin bilgilerini güncelledi.`,
+            messageTr: `${user.fullName}, ${medicine?.name ?? "-"} ilacına ait kaydı güncelledi.`,
         });
 
         return NextResponse.json({
             ok: true,
-            message: "Parti kaydı başarıyla güncellendi.",
+            message: "Kayıt başarıyla güncellendi.",
             item: batch,
         });
     } catch {
         return NextResponse.json(
-            { message: "Parti güncellenirken hata oluştu." },
+            { message: "Kayıt güncellenirken hata oluştu." },
             { status: 500 }
         );
     }
@@ -121,7 +120,7 @@ export async function DELETE(_: Request, { params }: Params) {
 
         const batch = await MedicineBatch.findById(batchId).lean();
         if (!batch) {
-            return NextResponse.json({ message: "Parti bulunamadı." }, { status: 404 });
+            return NextResponse.json({ message: "Kayıt bulunamadı." }, { status: 404 });
         }
 
         const medicine = await Medicine.findById(batch.medicineId).lean();
@@ -135,16 +134,16 @@ export async function DELETE(_: Request, { params }: Params) {
             action: "DELETE",
             targetType: "MedicineBatch",
             targetId: String(batch._id),
-            messageTr: `${user.fullName}, ${medicine?.name ?? "-"} ilacına ait ${batch.batchNo} partisinin kaydını sildi.`,
+            messageTr: `${user.fullName}, ${medicine?.name ?? "-"} ilacına ait kaydı sildi.`,
         });
 
         return NextResponse.json({
             ok: true,
-            message: "Parti kaydı başarıyla silindi.",
+            message: "Kayıt başarıyla silindi.",
         });
     } catch {
         return NextResponse.json(
-            { message: "Parti silinirken hata oluştu." },
+            { message: "Kayıt silinirken hata oluştu." },
             { status: 500 }
         );
     }

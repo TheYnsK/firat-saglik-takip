@@ -12,15 +12,17 @@ const medicineBatchSchema = new Schema(
             type: String,
             required: true,
             trim: true,
+            index: true,
         },
         batchNo: {
             type: String,
-            required: true,
+            default: "",
             trim: true,
         },
         expiryDate: {
             type: Date,
             required: true,
+            index: true,
         },
         stockQuantity: {
             type: Number,
@@ -50,10 +52,6 @@ const medicineBatchSchema = new Schema(
         timestamps: true,
     }
 );
-
-medicineBatchSchema.index({ barcode: 1 });
-medicineBatchSchema.index({ batchNo: 1 });
-medicineBatchSchema.index({ expiryDate: 1 });
 
 export type MedicineBatchDocument = InferSchemaType<typeof medicineBatchSchema> & {
     _id: mongoose.Types.ObjectId;

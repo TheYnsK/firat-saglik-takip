@@ -27,10 +27,10 @@ export default async function MedicineBatchEditDetailPage({ params }: Params) {
         <div className="space-y-8">
             <div>
                 <h2 className="bg-gradient-to-r from-sky-700 via-cyan-600 to-fuchsia-600 bg-clip-text text-2xl font-black text-transparent">
-                    Parti Kaydını Düzenle
+                    Kaydı Düzenle
                 </h2>
                 <p className="mt-1 text-sm text-slate-500">
-                    Parti bilgilerini güncelleyin veya kaydı silin.
+                    Kayıt bilgilerini güncelleyin veya kaydı silin.
                 </p>
             </div>
 
@@ -40,7 +40,6 @@ export default async function MedicineBatchEditDetailPage({ params }: Params) {
                 initialValues={{
                     medicineId: String(batch.medicineId),
                     barcode: batch.barcode,
-                    batchNo: batch.batchNo,
                     expiryDate: toDateInput(batch.expiryDate),
                     stockQuantity: batch.stockQuantity,
                     receivedAt: toDateInput(batch.receivedAt),

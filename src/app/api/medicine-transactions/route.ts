@@ -62,7 +62,7 @@ export async function POST(request: Request) {
             action: parsed.data.transactionType,
             targetType: "MedicineTransaction",
             targetId: String(result.transaction._id),
-            messageTr: `${user.fullName}, ${result.medicineName} ilacının ${result.batchNo} partisinde ${parsed.data.quantity} adet için ${actionText}. Yeni stok: ${result.newStockQuantity}.`,
+            messageTr: `${user.fullName}, ${result.medicineName} ilacının barkodlu kaydı için ${parsed.data.quantity} adet ${actionText}. Yeni stok: ${result.newStockQuantity}.`,
         });
 
         return NextResponse.json({
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
         if (error instanceof Error) {
             if (error.message === "PARTI_NOT_FOUND") {
                 return NextResponse.json(
-                    { message: "Parti kaydı bulunamadı." },
+                    { message: "Kayıt bulunamadı." },
                     { status: 404 }
                 );
             }
@@ -86,7 +86,7 @@ export async function POST(request: Request) {
             }
             if (error.message === "MEDICINE_BATCH_MISMATCH") {
                 return NextResponse.json(
-                    { message: "Seçilen ilaç ile parti eşleşmiyor." },
+                    { message: "Seçilen ilaç ile barkodlu kayıt eşleşmiyor." },
                     { status: 400 }
                 );
             }
