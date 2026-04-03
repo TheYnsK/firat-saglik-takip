@@ -31,6 +31,11 @@ export default async function ProductEditPage({ searchParams }: Props) {
 
             <ProductForm />
 
+            <AutoSearchForm
+                label="Ürün adı, barkod, kullanıcı, işlem türü veya açıklama ile ara"
+                placeholder=" "
+            />
+
             <div>
                 <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <h3 className="text-lg font-bold text-slate-800">Mevcut Ürünler</h3>
@@ -39,12 +44,11 @@ export default async function ProductEditPage({ searchParams }: Props) {
                     </p>
                 </div>
 
+
+
                 <ProductListTable items={result.items} showActions />
 
-                <AutoSearchForm
-                    label="Ürün adı, barkod, kullanıcı, işlem türü veya açıklama ile ara"
-                    placeholder=" "
-                />
+
 
                 <div className="mt-6">
                     <Pagination

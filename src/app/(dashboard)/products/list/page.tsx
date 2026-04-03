@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ProductListTable } from "@/components/products/product-list-table";
 import { listProductsWithSummaryPaginated } from "@/lib/services/product.service";
 import { Pagination } from "@/components/shared/pagination";
+import {AutoSearchForm} from "@/components/shared/auto-search-form";
 
 type Props = {
     searchParams: Promise<{
@@ -38,6 +39,11 @@ export default async function ProductListPage({ searchParams }: Props) {
             <p className="text-sm text-slate-500">
                 Toplam kayıt: {result.totalCount} · Sayfa: {result.currentPage}/{result.totalPages}
             </p>
+
+            <AutoSearchForm
+                label="Ürün adı, barkod, kullanıcı, işlem türü veya açıklama ile ara"
+                placeholder=" "
+            />
 
             <ProductListTable items={result.items} />
 
