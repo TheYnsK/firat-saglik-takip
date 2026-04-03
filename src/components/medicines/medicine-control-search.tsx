@@ -85,7 +85,7 @@ export function MedicineControlSearch() {
                         </button>
                     </div>
                     <p className="text-xs leading-5 text-slate-500">
-                        Barkod okutulduğunda veya ilaç adı yazıldığında, ilacın tüm parti ve
+                        Barkod okutulduğunda veya ilaç adı yazıldığında, ilacın tüm kayıt ve
                         stok bilgileri aşağıda görüntülenir.
                     </p>
                 </div>

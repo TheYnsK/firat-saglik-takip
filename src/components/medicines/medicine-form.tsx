@@ -229,7 +229,7 @@ export function MedicineForm({
             <ConfirmDialog
                 open={confirmOpen}
                 title="İlaç kaydını sil"
-                description="Bu ilaç kaydını silmek istediğinize emin misiniz? Eğer bu ilaca bağlı parti kayıtları varsa silme işlemi gerçekleşmez."
+                description="Bu ilaç kaydını silmek istediğinize emin misiniz? Eğer bu ilaca bağlı ilaç kayıtları varsa silme işlemi gerçekleşmez."
                 confirmText="Evet, sil"
                 cancelText="Vazgeç"
                 loading={deleteLoading}

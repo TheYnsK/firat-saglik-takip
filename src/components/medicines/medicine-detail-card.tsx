@@ -1,4 +1,4 @@
-import {formatDateTR} from "@/lib/date";
+import { formatDateTR } from "@/lib/date";
 
 type BatchDetail = {
     _id: string;
@@ -91,10 +91,11 @@ export function MedicineDetailCard({ medicine, batches }: Props) {
                             <tr key={batch._id} className="border-t border-slate-100">
                                 <td className="px-4 py-3 text-slate-700">{batch.barcode}</td>
                                 <td className="px-4 py-3 text-slate-700">
-                                    formatDateTR(item.expiryDate)                                </td>
+                                    {formatDateTR(batch.expiryDate)}
+                                </td>
                                 <td className="px-4 py-3 text-slate-700">{batch.stockQuantity}</td>
                                 <td className="px-4 py-3 text-slate-700">
-                                    {new Date(batch.receivedAt).toLocaleDateString("tr-TR")}
+                                    {formatDateTR(batch.receivedAt)}
                                 </td>
                                 <td className="px-4 py-3 text-slate-700">{batch.note || "-"}</td>
                             </tr>

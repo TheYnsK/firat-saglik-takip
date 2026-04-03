@@ -31,6 +31,14 @@ export default async function MedicinesHomePage() {
                             label: "SKT geçmiş ilaçları indir",
                             href: "/api/medicines/export/expired-excel",
                         },
+                        {
+                            label: "İlaç stok hareketlerini indir",
+                            href: "/api/medicines/export/transactions-excel",
+                        },
+                        {
+                            label: "İlaç işlem kayıtlarını indir",
+                            href: "/api/medicines/export/logs-excel",
+                        },
                     ]}
                 />
             </div>

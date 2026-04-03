@@ -52,7 +52,7 @@ export function MedicineBatchForm({
     useEffect(() => {
         async function loadMedicines() {
             try {
-                const res = await fetch("/api/medicines");
+                const res = await fetch("/api/medicines/options");
                 const data = await res.json();
                 setMedicines(data.items ?? []);
             } catch {
@@ -86,7 +86,7 @@ export function MedicineBatchForm({
             const data = await res.json();
 
             if (!res.ok) {
-                setError(data.message ?? "Parti kaydı başarısız.");
+                setError(data.message ?? "Kayıt kaydı başarısız.");
                 return;
             }
 

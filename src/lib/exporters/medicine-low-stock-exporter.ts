@@ -13,7 +13,7 @@ export async function exportMedicineLowStockExcel() {
         olcu: item.measure,
         toplamStok: item.totalStock,
         dusukStokLimiti: item.lowStockThreshold,
-        partiSayisi: item.batchCount,
+        kayıtSayisi: item.batchCount,
         not: item.note || "",
     }));
 
@@ -27,7 +27,7 @@ export async function exportMedicineLowStockExcel() {
             { header: "Ölçü", key: "olcu", width: 18 },
             { header: "Toplam Stok", key: "toplamStok", width: 14 },
             { header: "Düşük Stok Limiti", key: "dusukStokLimiti", width: 18 },
-            { header: "Parti Sayısı", key: "partiSayisi", width: 12 },
+            { header: "Kayıt Sayısı", key: "kayıtSayisi", width: 12 },
             { header: "Not", key: "not", width: 30 },
         ],
         rows,

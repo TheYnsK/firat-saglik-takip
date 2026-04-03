@@ -122,7 +122,7 @@ export async function DELETE(_: Request, { params }: Params) {
         const batchCount = await MedicineBatch.countDocuments({ medicineId });
         if (batchCount > 0) {
             return NextResponse.json(
-                { message: "Bu ilaca bağlı parti kayıtları bulunduğu için silinemez." },
+                { message: "Bu ilaca bağlı kayıt kayıtları bulunduğu için silinemez." },
                 { status: 400 }
             );
         }

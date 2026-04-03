@@ -14,7 +14,7 @@ export async function GET() {
         return NextResponse.json({ items });
     } catch {
         return NextResponse.json(
-            { message: "Parti listesi alınırken hata oluştu." },
+            { message: "Kayıt listesi alınırken hata oluştu." },
             { status: 500 }
         );
     }

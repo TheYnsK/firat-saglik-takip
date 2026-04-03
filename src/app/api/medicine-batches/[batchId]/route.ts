@@ -87,7 +87,7 @@ export async function PUT(request: Request, { params }: Params) {
         await createLog({
             username: user.username,
             fullName: user.fullName,
-            module: "İlaç Partileri",
+            module: "İlaç Kayıtleri",
             action: "UPDATE",
             targetType: "MedicineBatch",
             targetId: String(batch._id),
@@ -130,7 +130,7 @@ export async function DELETE(_: Request, { params }: Params) {
         await createLog({
             username: user.username,
             fullName: user.fullName,
-            module: "İlaç Partileri",
+            module: "İlaç Kayıtleri",
             action: "DELETE",
             targetType: "MedicineBatch",
             targetId: String(batch._id),

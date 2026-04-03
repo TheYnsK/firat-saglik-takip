@@ -16,7 +16,7 @@ export const medicineNav = [
     { label: "Ana Ekran", href: "/medicines", icon: LayoutDashboard },
     { label: "İlaç Kontrolü", href: "/medicines/control", icon: Search },
     { label: "İlaç Listesi", href: "/medicines/list", icon: List },
-    { label: "İlaç Parti Listesi", href: "/medicines/batches", icon: Boxes },
+    { label: "İlaç Kayıt Listesi", href: "/medicines/batches", icon: Boxes },
     { label: "Stok Hareketleri", href: "/medicines/stock-movements", icon: ArrowRightLeft },
     { label: "İlaç Raporlama", href: "/medicines/reports", icon: FileBarChart2 },
     { label: "Takvim", href: "/medicines/calendar", icon: CalendarDays },

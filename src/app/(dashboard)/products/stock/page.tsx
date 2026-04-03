@@ -1,9 +1,48 @@
 import { ProductStockForm } from "@/components/products/product-stock-form";
-import { listProductTransactions } from "@/lib/services/product.service";
+import { listProductTransactionsPaginated } from "@/lib/services/product.service";
+import { Pagination } from "@/components/shared/pagination";
 import { formatDateTimeTR } from "@/lib/date";
+import { AutoSearchForm } from "@/components/shared/auto-search-form";
 
-export default async function ProductStockPage() {
-    const items = await listProductTransactions();
+type Props = {
+    searchParams: Promise<{
+        page?: string;
+        q?: string;
+    }>;
+};
+
+function getActionBadge(action: string) {
+    switch (action) {
+        case "IN":
+            return "bg-cyan-100 text-cyan-700 border border-cyan-200";
+        case "OUT":
+            return "bg-orange-100 text-orange-700 border border-orange-200";
+        case "ADJUSTMENT":
+            return "bg-fuchsia-100 text-fuchsia-700 border border-fuchsia-200";
+        default:
+            return "bg-slate-100 text-slate-700 border border-slate-200";
+    }
+}
+
+function getActionLabel(action: string) {
+    switch (action) {
+        case "IN":
+            return "Stok Girişi";
+        case "OUT":
+            return "Stok Çıkışı";
+        case "ADJUSTMENT":
+            return "Stok Düzeltme";
+        default:
+            return action;
+    }
+}
+
+export default async function ProductStockPage({ searchParams }: Props) {
+    const params = await searchParams;
+    const page = Number(params.page ?? "1");
+    const q = params.q ?? "";
+
+    const result = await listProductTransactionsPaginated(page, 20, q);
 
     return (
         <div className="space-y-8">
@@ -16,12 +55,23 @@ export default async function ProductStockPage() {
                 </p>
             </div>
 
+
+
             <ProductStockForm />
 
+
+            <AutoSearchForm
+                label="Ürün adı, kullanıcı, işlem türü veya açıklama ile ara"
+                placeholder=" "
+            />
+
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="mb-4 text-lg font-bold text-slate-800">
-                    Son Stok Hareketleri
-                </h3>
+                <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <h3 className="text-lg font-bold text-slate-800">Son Stok Hareketleri</h3>
+                    <p className="text-sm text-slate-500">
+                        Toplam kayıt: {result.totalCount} · Sayfa: {result.currentPage}/{result.totalPages}
+                    </p>
+                </div>
 
                 <div className="overflow-x-auto">
                     <table className="min-w-full text-sm">
@@ -36,29 +86,30 @@ export default async function ProductStockPage() {
                         </tr>
                         </thead>
                         <tbody>
-                        {items.map((item) => (
+                        {result.items.map((item) => (
                             <tr key={item._id} className="border-t border-slate-100">
                                 <td className="px-4 py-3 text-slate-700">
-                                    {formatDateTimeTR(item.createdAt)}                                </td>
+                                    {formatDateTimeTR(item.createdAt)}
+                                </td>
                                 <td className="px-4 py-3 font-semibold text-slate-900">
                                     {item.productName}
                                 </td>
-                                <td className="px-4 py-3 text-slate-700">
-                                    {item.transactionType === "IN"
-                                        ? "Giriş"
-                                        : item.transactionType === "OUT"
-                                            ? "Çıkış"
-                                            : "Düzeltme"}
+                                <td className="px-4 py-3">
+                    <span
+                        className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${getActionBadge(
+                            item.transactionType
+                        )}`}
+                    >
+                      {getActionLabel(item.transactionType)}
+                    </span>
                                 </td>
                                 <td className="px-4 py-3 text-slate-700">{item.quantity}</td>
-                                <td className="px-4 py-3 text-slate-700">{item.performedBy}</td>
-                                <td className="px-4 py-3 text-slate-700">
-                                    {item.description || "-"}
-                                </td>
+                                <td className="px-4 py-3 text-slate-700">{item.performerName}</td>
+                                <td className="px-4 py-3 text-slate-700">{item.description || "-"}</td>
                             </tr>
                         ))}
 
-                        {items.length === 0 ? (
+                        {result.items.length === 0 ? (
                             <tr>
                                 <td colSpan={6} className="px-4 py-10 text-center text-slate-500">
                                     Henüz stok hareketi bulunmuyor.
@@ -67,6 +118,15 @@ export default async function ProductStockPage() {
                         ) : null}
                         </tbody>
                     </table>
+                </div>
+
+                <div className="mt-6">
+                    <Pagination
+                        currentPage={result.currentPage}
+                        totalPages={result.totalPages}
+                        basePath="/products/stock"
+                        query={{ q }}
+                    />
                 </div>
             </div>
         </div>

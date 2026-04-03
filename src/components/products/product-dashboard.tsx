@@ -1,4 +1,4 @@
-import {formatDateTR} from "@/lib/date";
+import { formatDateTR } from "@/lib/date";
 
 type ProductListItem = {
     _id: string;
@@ -44,14 +44,18 @@ export function ProductDashboard({
                 </div>
 
                 <div className="rounded-3xl border border-amber-200 bg-white p-5 shadow-sm">
-                    <p className="text-sm font-medium text-slate-500">SKT Yaklaşan Ürün Sayısı</p>
+                    <p className="text-sm font-medium text-slate-500">
+                        SKT Yaklaşan Ürün Sayısı
+                    </p>
                     <h3 className="mt-3 text-3xl font-black text-amber-600">
                         {expiringCount}
                     </h3>
                 </div>
 
                 <div className="rounded-3xl border border-rose-200 bg-white p-5 shadow-sm">
-                    <p className="text-sm font-medium text-slate-500">SKT Geçmiş Ürün Sayısı</p>
+                    <p className="text-sm font-medium text-slate-500">
+                        SKT Geçmiş Ürün Sayısı
+                    </p>
                     <h3 className="mt-3 text-3xl font-black text-rose-700">
                         {expiredCount}
                     </h3>
@@ -60,7 +64,7 @@ export function ProductDashboard({
 
             <div className="grid gap-6 xl:grid-cols-3">
                 <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <h3 className="text-lg font-bold text-slate-900">Düşük stoktaki ürünler</h3>
+                    <h3 className="text-lg font-bold text-slate-900">Düşük Stoktaki Ürünler</h3>
                     {lowStockItems.length === 0 ? (
                         <p className="mt-4 text-sm text-slate-500">
                             Düşük stokta ürün bulunmuyor.
@@ -80,7 +84,7 @@ export function ProductDashboard({
                 </div>
 
                 <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <h3 className="text-lg font-bold text-slate-900">SKT yaklaşan ürünler</h3>
+                    <h3 className="text-lg font-bold text-slate-900">SKT Yaklaşan Ürünler</h3>
                     {expiringList.length === 0 ? (
                         <p className="mt-4 text-sm text-slate-500">
                             Yaklaşan son kullanma tarihli ürün yok.
@@ -94,7 +98,7 @@ export function ProductDashboard({
                                 >
                                     <div className="font-semibold">{item.productName}</div>
                                     <div>
-                                        SKT: formatDateTR(item.expiryDate)
+                                        SKT: {item.expiryDate ? formatDateTR(item.expiryDate) : "-"}
                                     </div>
                                     <div>Stok: {item.stockQuantity}</div>
                                 </li>
@@ -104,7 +108,7 @@ export function ProductDashboard({
                 </div>
 
                 <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <h3 className="text-lg font-bold text-slate-900">SKT geçmiş ürünler</h3>
+                    <h3 className="text-lg font-bold text-slate-900">SKT Geçmiş Ürünler</h3>
                     {expiredList.length === 0 ? (
                         <p className="mt-4 text-sm text-slate-500">
                             Son kullanma tarihi geçmiş ürün yok.
@@ -118,7 +122,7 @@ export function ProductDashboard({
                                 >
                                     <div className="font-semibold">{item.productName}</div>
                                     <div>
-                                        SKT: formatDateTR(item.expiryDate)
+                                        SKT: {item.expiryDate ? formatDateTR(item.expiryDate) : "-"}
                                     </div>
                                     <div>Stok: {item.stockQuantity}</div>
                                 </li>

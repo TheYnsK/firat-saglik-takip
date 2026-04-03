@@ -1,9 +1,19 @@
 import Link from "next/link";
 import { ProductListTable } from "@/components/products/product-list-table";
-import { listProductsWithSummary } from "@/lib/services/product.service";
+import { listProductsWithSummaryPaginated } from "@/lib/services/product.service";
+import { Pagination } from "@/components/shared/pagination";
 
-export default async function ProductListPage() {
-    const items = await listProductsWithSummary();
+type Props = {
+    searchParams: Promise<{
+        page?: string;
+    }>;
+};
+
+export default async function ProductListPage({ searchParams }: Props) {
+    const params = await searchParams;
+    const page = Number(params.page ?? "1");
+
+    const result = await listProductsWithSummaryPaginated(page, 20);
 
     return (
         <div className="space-y-6">
@@ -19,13 +29,23 @@ export default async function ProductListPage() {
 
                 <Link
                     href="/products/list/edit"
-                    className="inline-flex rounded-2xl bg-gradient-to-r from-cyan-500 to-fuchsia-500 px-5 py-3 font-bold text-white shadow-md transition hover:scale-[1.01]"
+                    className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-cyan-500 to-fuchsia-500 px-5 py-3 font-bold !text-white no-underline shadow-md transition hover:scale-[1.01] hover:!text-white visited:!text-white"
                 >
                     Ürün Listesini Düzenle
                 </Link>
             </div>
 
-            <ProductListTable items={items} />
+            <p className="text-sm text-slate-500">
+                Toplam kayıt: {result.totalCount} · Sayfa: {result.currentPage}/{result.totalPages}
+            </p>
+
+            <ProductListTable items={result.items} />
+
+            <Pagination
+                currentPage={result.currentPage}
+                totalPages={result.totalPages}
+                basePath="/products/list"
+            />
         </div>
     );
 }

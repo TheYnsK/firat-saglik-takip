@@ -31,6 +31,14 @@ export default async function ProductsHomePage() {
                             label: "SKT geçmiş ürünleri indir",
                             href: "/api/products/export/expired-excel",
                         },
+                        {
+                            label: "Ürün stok hareketlerini indir",
+                            href: "/api/products/export/transactions-excel",
+                        },
+                        {
+                            label: "Ürün işlem kayıtlarını indir",
+                            href: "/api/products/export/logs-excel",
+                        },
                     ]}
                 />
             </div>

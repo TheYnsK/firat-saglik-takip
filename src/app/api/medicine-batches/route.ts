@@ -47,7 +47,7 @@ export async function POST(request: Request) {
         await createLog({
             username: user.username,
             fullName: user.fullName,
-            module: "İlaç Partileri",
+            module: "İlaç Kayıtleri",
             action: "CREATE",
             targetType: "MedicineBatch",
             targetId: String(created._id),

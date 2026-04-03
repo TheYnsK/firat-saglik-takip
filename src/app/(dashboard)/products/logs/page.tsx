@@ -1,30 +1,21 @@
-import { connectToDatabase } from "@/lib/db";
-import { AuditLog } from "@/models/AuditLog";
 import { ProductLogTable } from "@/components/products/product-log-table";
+import { Pagination } from "@/components/shared/pagination";
+import { listProductLogsPaginated } from "@/lib/services/audit.service";
+import { AutoSearchForm } from "@/components/shared/auto-search-form";
 
-export default async function ProductLogsPage() {
-    await connectToDatabase();
+type Props = {
+    searchParams: Promise<{
+        page?: string;
+        q?: string;
+    }>;
+};
 
-    const items = await AuditLog.find({
-        module: {
-            $in: ["Ürünler", "Ürün Stok Hareketleri"],
-        },
-    })
-        .sort({ createdAt: -1 })
-        .limit(200)
-        .lean();
+export default async function ProductLogsPage({ searchParams }: Props) {
+    const params = await searchParams;
+    const page = Number(params.page ?? "1");
+    const q = params.q ?? "";
 
-    const normalized = items.map((item: any) => ({
-        _id: String(item._id),
-        fullName: item.fullName,
-        module: item.module,
-        action: item.action,
-        messageTr: item.messageTr,
-        createdAt:
-            item.createdAt instanceof Date
-                ? item.createdAt.toISOString()
-                : new Date(item.createdAt).toISOString(),
-    }));
+    const result = await listProductLogsPaginated(page, 20, q);
 
     return (
         <div className="space-y-6">
@@ -33,11 +24,34 @@ export default async function ProductLogsPage() {
                     İşlem Kayıtları
                 </h2>
                 <p className="mt-1 text-sm text-slate-500">
-                    Ürün ekleme, düzenleme, silme ve stok işlemlerini buradan takip edin.
+                    Sadece ürün tarafındaki kayıt ve stok işlemleri burada gösterilir.
                 </p>
             </div>
 
-            <ProductLogTable items={normalized} />
+            <AutoSearchForm
+                label="Kullanıcı, modül, işlem veya açıklama ile ara"
+                placeholder=" "
+            />
+
+            <div className="rounded-3xl border border-slate-200 bg-transparent">
+                <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <p className="text-sm text-slate-500">
+                        Toplam kayıt: {result.totalCount} · Sayfa: {result.currentPage}/{result.totalPages}
+                    </p>
+                </div>
+
+                <ProductLogTable items={result.items} />
+
+
+                <div className="mt-6">
+                    <Pagination
+                        currentPage={result.currentPage}
+                        totalPages={result.totalPages}
+                        basePath="/products/logs"
+                        query={{ q }}
+                    />
+                </div>
+            </div>
         </div>
     );
 }

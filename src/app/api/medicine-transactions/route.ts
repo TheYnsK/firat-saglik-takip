@@ -62,8 +62,7 @@ export async function POST(request: Request) {
             action: parsed.data.transactionType,
             targetType: "MedicineTransaction",
             targetId: String(result.transaction._id),
-            messageTr: `${user.fullName}, ${result.medicineName} ilacının barkodlu kaydı için ${parsed.data.quantity} adet ${actionText}. Yeni stok: ${result.newStockQuantity}.`,
-        });
+            messageTr: `${user.fullName}, ${result.medicineName} ilacının barkodlu kaydı için ${parsed.data.quantity} adet ${actionText}. Yeni stok: ${result.newStockQuantity}.${parsed.data.description?.trim() ? ` Not: ${parsed.data.description.trim()}.` : ""}`,        });
 
         return NextResponse.json({
             ok: true,

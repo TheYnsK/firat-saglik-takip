@@ -1,26 +1,21 @@
-import { connectToDatabase } from "@/lib/db";
-import { AuditLog } from "@/models/AuditLog";
 import { MedicineLogTable } from "@/components/medicines/medicine-log-table";
+import { Pagination } from "@/components/shared/pagination";
+import { listMedicineLogsPaginated } from "@/lib/services/audit.service";
+import { AutoSearchForm } from "@/components/shared/auto-search-form";
 
-export default async function MedicineLogsPage() {
-    await connectToDatabase();
+type Props = {
+    searchParams: Promise<{
+        page?: string;
+        q?: string;
+    }>;
+};
 
-    const items = await AuditLog.find()
-        .sort({ createdAt: -1 })
-        .limit(200)
-        .lean();
+export default async function MedicineLogsPage({ searchParams }: Props) {
+    const params = await searchParams;
+    const page = Number(params.page ?? "1");
+    const q = params.q ?? "";
 
-    const normalized = items.map((item: any) => ({
-        _id: String(item._id),
-        fullName: item.fullName,
-        module: item.module,
-        action: item.action,
-        messageTr: item.messageTr,
-        createdAt:
-            item.createdAt instanceof Date
-                ? item.createdAt.toISOString()
-                : new Date(item.createdAt).toISOString(),
-    }));
+    const result = await listMedicineLogsPaginated(page, 20, q);
 
     return (
         <div className="space-y-6">
@@ -29,11 +24,33 @@ export default async function MedicineLogsPage() {
                     İşlem Kayıtları
                 </h2>
                 <p className="mt-1 text-sm text-slate-500">
-                    Sistemde yapılan ilaç, parti ve stok işlemlerini buradan takip edin.
+                    Sadece ilaç tarafındaki kayıt ve stok işlemleri burada gösterilir.
                 </p>
             </div>
 
-            <MedicineLogTable items={normalized} />
+            <AutoSearchForm
+                label="Kullanıcı, modül, işlem veya açıklama ile ara"
+                placeholder=" "
+            />
+
+            <div className="rounded-3xl border border-slate-200 bg-transparent">
+                <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <p className="text-sm text-slate-500">
+                        Toplam kayıt: {result.totalCount} · Sayfa: {result.currentPage}/{result.totalPages}
+                    </p>
+                </div>
+
+                <MedicineLogTable items={result.items} />
+
+                <div className="mt-6">
+                    <Pagination
+                        currentPage={result.currentPage}
+                        totalPages={result.totalPages}
+                        basePath="/medicines/logs"
+                        query={{ q }}
+                    />
+                </div>
+            </div>
         </div>
     );
 }

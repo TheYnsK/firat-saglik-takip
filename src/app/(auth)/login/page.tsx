@@ -49,7 +49,7 @@ export default function LoginPage() {
                                 İlaç ve Ürün Takip Sistemi
                             </h2>
                             <p className="mt-3 text-sm leading-6 text-slate-300">
-                                İlaç, parti, stok, son kullanma tarihi, medikal ürün ve işlem
+                                İlaç, kayıt, stok, son kullanma tarihi, medikal ürün ve işlem
                                 kayıtlarını tek panelden güvenli ve düzenli şekilde yönetin.
                             </p>
                         </div>

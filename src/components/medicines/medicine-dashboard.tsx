@@ -1,4 +1,4 @@
-import {formatDateTR} from "@/lib/date";
+import { formatDateTR } from "@/lib/date";
 
 type ExpiryItem = {
     _id: string;
@@ -66,7 +66,7 @@ export function MedicineDashboard({
             <div className="grid gap-6 xl:grid-cols-3">
                 <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-slate-900">
-                        Düşük stokta olan ilaçlar
+                        Düşük Stokta Olan İlaçlar
                     </h3>
 
                     {lowStockItems.length === 0 ? (
@@ -89,7 +89,7 @@ export function MedicineDashboard({
 
                 <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-slate-900">
-                        SKT yaklaşan kayıtlar
+                        SKT Yaklaşan Kayıtlar
                     </h3>
 
                     {expiringList.length === 0 ? (
@@ -105,9 +105,7 @@ export function MedicineDashboard({
                                 >
                                     <div className="font-semibold">{item.medicineName}</div>
                                     {item.barcode ? <div>Barkod: {item.barcode}</div> : null}
-                                    <div>
-                                        SKT: formatDateTR(item.expiryDate)
-                                    </div>
+                                    <div>SKT: {formatDateTR(item.expiryDate)}</div>
                                     <div>Stok: {item.stockQuantity}</div>
                                 </li>
                             ))}
@@ -117,7 +115,7 @@ export function MedicineDashboard({
 
                 <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-slate-900">
-                        SKT geçmiş kayıtlar
+                        SKT Geçmiş Kayıtlar
                     </h3>
 
                     {expiredList.length === 0 ? (
@@ -133,9 +131,7 @@ export function MedicineDashboard({
                                 >
                                     <div className="font-semibold">{item.medicineName}</div>
                                     {item.barcode ? <div>Barkod: {item.barcode}</div> : null}
-                                    <div>
-                                        SKT: formatDateTR(item.expiryDate)
-                                    </div>
+                                    <div>SKT: {formatDateTR(item.expiryDate)}</div>
                                     <div>Stok: {item.stockQuantity}</div>
                                 </li>
                             ))}

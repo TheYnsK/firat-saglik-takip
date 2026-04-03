@@ -8,7 +8,7 @@ export default function MedicineControlPage() {
                     İlaç Kontrolü
                 </h2>
                 <p className="mt-1 text-sm text-slate-500">
-                    İlaç adı veya barkod ile sorgulama yaparak ilaç ve parti bilgilerini
+                    İlaç adı veya barkod ile sorgulama yaparak ilaç ve kayıt bilgilerini
                     görüntüleyin.
                 </p>
             </div>

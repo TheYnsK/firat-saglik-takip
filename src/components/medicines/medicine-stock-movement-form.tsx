@@ -49,7 +49,7 @@ export function MedicineStockMovementForm() {
         async function loadData() {
             try {
                 const [medicinesRes, batchesRes] = await Promise.all([
-                    fetch("/api/medicines"),
+                    fetch("/api/medicines/options"),
                     fetch("/api/medicine-batches/list"),
                 ]);
 
@@ -90,7 +90,7 @@ export function MedicineStockMovementForm() {
         const matchedBatch = batches.find((item) => item.barcode === normalized);
 
         if (!matchedBatch) {
-            setBarcodeError("Bu barkoda ait ilaç partisi bulunamadı.");
+            setBarcodeError("Bu barkoda ait ilaç kaydı bulunamadı.");
             return;
         }
 
@@ -101,7 +101,7 @@ export function MedicineStockMovementForm() {
         }));
 
         setBarcodeMessage(
-            `${matchedBatch.medicineName} / ${matchedBatch.batchNo} partisi otomatik seçildi.`
+            `${matchedBatch.medicineName}  kaydı otomatik seçildi.`
         );
     }
 
@@ -185,7 +185,7 @@ export function MedicineStockMovementForm() {
             <div className="rounded-3xl border border-cyan-200 bg-cyan-50/60 p-5">
                 <div className="space-y-2">
                     <label className="text-sm font-semibold text-slate-700">
-                        Barkod ile ilaç/parti bul
+                        Barkod ile ilaç/kayıt bul
                     </label>
 
                     <div className="flex flex-col gap-3 md:flex-row">
@@ -201,7 +201,7 @@ export function MedicineStockMovementForm() {
                     </div>
 
                     <p className="text-xs leading-5 text-slate-500">
-                        Barkod okutulduğu anda ilgili ilaç ve parti otomatik seçilir. Dilerseniz
+                        Barkod okutulduğu anda ilgili ilaç ve kayıt otomatik seçilir. Dilerseniz
                         aşağıdan manuel seçim yapmaya devam edebilirsiniz.
                     </p>
                 </div>
@@ -221,15 +221,11 @@ export function MedicineStockMovementForm() {
 
             {selectedBatch ? (
                 <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
-                    <h3 className="text-sm font-bold text-slate-800">Seçilen Parti</h3>
+                    <h3 className="text-sm font-bold text-slate-800">Seçilen Kayıt</h3>
                     <div className="mt-2 grid gap-2 text-sm text-slate-600 md:grid-cols-2">
                         <div>
                             <span className="font-semibold text-slate-800">İlaç:</span>{" "}
                             {selectedBatch.medicineName}
-                        </div>
-                        <div>
-                            <span className="font-semibold text-slate-800">Parti:</span>{" "}
-                            {selectedBatch.batchNo}
                         </div>
                         <div>
                             <span className="font-semibold text-slate-800">Barkod:</span>{" "}
@@ -268,7 +264,7 @@ export function MedicineStockMovementForm() {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-slate-700">Parti</label>
+                    <label className="text-sm font-semibold text-slate-700">Kayıt</label>
                     <select
                         value={form.batchId}
                         onChange={(e) =>
@@ -277,10 +273,10 @@ export function MedicineStockMovementForm() {
                         disabled={!form.medicineId || loadingData}
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none focus:border-cyan-400 focus:bg-white"
                     >
-                        <option value="">Parti seçin</option>
+                        <option value="">Kayıt seçin</option>
                         {filteredBatches.map((item) => (
                             <option key={item._id} value={item._id}>
-                                {item.batchNo} | Barkod: {item.barcode} | Stok: {item.stockQuantity}
+                                {item.batchNo}  Barkod: {item.barcode} | Stok: {item.stockQuantity}
                             </option>
                         ))}
                     </select>
@@ -317,7 +313,7 @@ export function MedicineStockMovementForm() {
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none focus:border-fuchsia-400 focus:bg-white"
                     />
                     <p className="text-xs text-slate-500">
-                        Düzeltme işleminde yazdığınız sayı partinin yeni stok değeri olur.
+                        Düzeltme işleminde yazdığınız sayı kaydın yeni stok değeri olur.
                     </p>
                 </div>
             </div>
