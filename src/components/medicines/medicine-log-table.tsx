@@ -1,3 +1,5 @@
+import {formatDateTimeTR} from "@/lib/date";
+
 type LogItem = {
     _id: string;
     fullName: string;
@@ -73,8 +75,7 @@ export function MedicineLogTable({ items }: Props) {
                         return (
                             <tr key={item._id} className="border-t border-slate-100">
                                 <td className="px-4 py-3 text-slate-700">
-                                    {new Date(item.createdAt).toLocaleString("tr-TR")}
-                                </td>
+                                    {formatDateTimeTR(item.createdAt)}                                </td>
                                 <td className="px-4 py-3 font-semibold text-slate-900">
                                     {item.fullName}
                                 </td>

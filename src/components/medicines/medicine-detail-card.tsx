@@ -1,3 +1,5 @@
+import {formatDateTR} from "@/lib/date";
+
 type BatchDetail = {
     _id: string;
     barcode: string;
@@ -89,8 +91,7 @@ export function MedicineDetailCard({ medicine, batches }: Props) {
                             <tr key={batch._id} className="border-t border-slate-100">
                                 <td className="px-4 py-3 text-slate-700">{batch.barcode}</td>
                                 <td className="px-4 py-3 text-slate-700">
-                                    {new Date(batch.expiryDate).toLocaleDateString("tr-TR")}
-                                </td>
+                                    formatDateTR(item.expiryDate)                                </td>
                                 <td className="px-4 py-3 text-slate-700">{batch.stockQuantity}</td>
                                 <td className="px-4 py-3 text-slate-700">
                                     {new Date(batch.receivedAt).toLocaleDateString("tr-TR")}

@@ -1,3 +1,5 @@
+import {formatDateTR} from "@/lib/date";
+
 type ProductListItem = {
     _id: string;
     productName: string;
@@ -92,7 +94,7 @@ export function ProductDashboard({
                                 >
                                     <div className="font-semibold">{item.productName}</div>
                                     <div>
-                                        SKT: {item.expiryDate ? new Date(item.expiryDate).toLocaleDateString("tr-TR") : "-"}
+                                        SKT: formatDateTR(item.expiryDate)
                                     </div>
                                     <div>Stok: {item.stockQuantity}</div>
                                 </li>
@@ -116,7 +118,7 @@ export function ProductDashboard({
                                 >
                                     <div className="font-semibold">{item.productName}</div>
                                     <div>
-                                        SKT: {item.expiryDate ? new Date(item.expiryDate).toLocaleDateString("tr-TR") : "-"}
+                                        SKT: formatDateTR(item.expiryDate)
                                     </div>
                                     <div>Stok: {item.stockQuantity}</div>
                                 </li>

@@ -1,4 +1,4 @@
-import { addDays } from "date-fns";
+import { addMonths } from "date-fns";
 import { connectToDatabase } from "@/lib/db";
 import { Medicine } from "@/models/Medicine";
 import { MedicineBatch } from "@/models/MedicineBatch";
@@ -10,7 +10,7 @@ export async function getMedicineDashboardSummary() {
     const batches = await MedicineBatch.find().populate("medicineId").lean();
 
     const now = new Date();
-    const next30Days = addDays(now, 30);
+    const next2Months = addMonths(now, 2);
 
     const totalMedicineCount = medicines.length;
 
@@ -32,7 +32,7 @@ export async function getMedicineDashboardSummary() {
     }
 
     const expiringItems = batches.filter(
-        (item: any) => item.expiryDate >= now && item.expiryDate <= next30Days
+        (item: any) => item.expiryDate >= now && item.expiryDate <= next2Months
     );
 
     const expiredItems = batches.filter((item: any) => item.expiryDate < now);

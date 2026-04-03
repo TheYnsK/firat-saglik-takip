@@ -1,4 +1,5 @@
 import ExcelJS from "exceljs";
+import {formatDateTimeTR} from "@/lib/date";
 
 type CellValue = string | number | boolean | null;
 
@@ -72,8 +73,7 @@ export async function createStyledExcelBuffer(params: {
 
     worksheet.mergeCells(`A2:${lastColumnLetter}2`);
     const infoCell = worksheet.getCell("A2");
-    infoCell.value = `Oluşturulma Tarihi: ${new Date().toLocaleString("tr-TR")}`;
-    infoCell.font = {
+    infoCell.value = `Oluşturulma Tarihi: ${formatDateTimeTR(new Date())}`;    infoCell.font = {
         italic: true,
         size: 10,
         color: { argb: "FF64748B" },

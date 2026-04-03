@@ -16,4 +16,5 @@ export type MedicineSummaryItem = MedicineItem & {
     batchCount: number;
     nearestExpiry: string | null;
     isLowStock: boolean;
+    barcodes: string[];
 };

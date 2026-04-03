@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ProductSummaryItem } from "@/types/product";
+import {formatDateTR} from "@/lib/date";
 
 type Props = {
     items: ProductSummaryItem[];
@@ -34,7 +35,7 @@ export function ProductListTable({ items, showActions = false }: Props) {
                             <td className="px-4 py-3 text-slate-700">{item.lowStockThreshold}</td>
                             <td className="px-4 py-3 text-slate-700">
                                 {item.hasExpiry && item.expiryDate
-                                    ? new Date(item.expiryDate).toLocaleDateString("tr-TR")
+                                    ? formatDateTR(item.expiryDate)
                                     : "-"}
                             </td>
                             <td className="px-4 py-3">

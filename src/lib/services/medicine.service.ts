@@ -26,6 +26,7 @@ export async function listMedicinesWithSummary(): Promise<MedicineSummaryItem[]>
                 totalStock: { $sum: "$stockQuantity" },
                 batchCount: { $sum: 1 },
                 nearestExpiry: { $min: "$expiryDate" },
+                barcodes: { $addToSet: "$barcode" },
             },
         },
     ]);
@@ -40,6 +41,9 @@ export async function listMedicinesWithSummary(): Promise<MedicineSummaryItem[]>
         const totalStock = Number(summary?.totalStock ?? 0);
         const batchCount = Number(summary?.batchCount ?? 0);
         const nearestExpiry = summary?.nearestExpiry ?? null;
+        const barcodes = Array.isArray(summary?.barcodes)
+            ? summary.barcodes.map((x: unknown) => String(x))
+            : [];
 
         return {
             _id: String(medicine._id),
@@ -64,6 +68,7 @@ export async function listMedicinesWithSummary(): Promise<MedicineSummaryItem[]>
                 ? new Date(nearestExpiry).toISOString()
                 : null,
             isLowStock: totalStock <= medicine.lowStockThreshold,
+            barcodes,
         };
     });
 }

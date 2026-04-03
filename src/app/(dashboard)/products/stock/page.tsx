@@ -1,5 +1,6 @@
 import { ProductStockForm } from "@/components/products/product-stock-form";
 import { listProductTransactions } from "@/lib/services/product.service";
+import { formatDateTimeTR } from "@/lib/date";
 
 export default async function ProductStockPage() {
     const items = await listProductTransactions();
@@ -38,8 +39,7 @@ export default async function ProductStockPage() {
                         {items.map((item) => (
                             <tr key={item._id} className="border-t border-slate-100">
                                 <td className="px-4 py-3 text-slate-700">
-                                    {new Date(item.createdAt).toLocaleString("tr-TR")}
-                                </td>
+                                    {formatDateTimeTR(item.createdAt)}                                </td>
                                 <td className="px-4 py-3 font-semibold text-slate-900">
                                     {item.productName}
                                 </td>

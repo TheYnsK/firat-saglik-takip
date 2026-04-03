@@ -1,4 +1,4 @@
-import { addDays } from "date-fns";
+import { addMonths } from "date-fns";
 import { connectToDatabase } from "@/lib/db";
 import { Product } from "@/models/Product";
 import { ProductTransaction } from "@/models/ProductTransaction";
@@ -12,7 +12,7 @@ export async function listProductsWithSummary(): Promise<ProductSummaryItem[]> {
         .lean();
 
     const now = new Date();
-    const next30Days = addDays(now, 30);
+    const next2Months = addMonths(now, 2);
 
     return items.map((item) => {
         const expiryDate = item.expiryDate
@@ -26,7 +26,7 @@ export async function listProductsWithSummary(): Promise<ProductSummaryItem[]> {
             item.hasExpiry &&
             expiryDate &&
             expiryDate >= now &&
-            expiryDate <= next30Days
+            expiryDate <= next2Months
         );
 
         return {
@@ -141,7 +141,7 @@ export async function getProductControlResult(query: string) {
         : null;
 
     const now = new Date();
-    const next30Days = addDays(now, 30);
+    const next2Months = addMonths(now, 2);
 
     return {
         _id: String(item._id),
@@ -160,7 +160,7 @@ export async function getProductControlResult(query: string) {
             item.hasExpiry &&
             expiryDate &&
             expiryDate >= now &&
-            expiryDate <= next30Days
+            expiryDate <= next2Months
         ),
     };
 }

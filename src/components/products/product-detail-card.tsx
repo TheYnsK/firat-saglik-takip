@@ -1,3 +1,5 @@
+import {formatDateTR} from "@/lib/date";
+
 type Props = {
     item: {
         _id: string;
@@ -72,7 +74,7 @@ export function ProductDetailCard({ item }: Props) {
 
                     {item.hasExpiry && item.expiryDate ? (
                         <span className="rounded-full bg-cyan-100 px-3 py-1 text-xs font-semibold text-cyan-700">
-              SKT: {new Date(item.expiryDate).toLocaleDateString("tr-TR")}
+              SKT: formatDateTR(item.expiryDate)
             </span>
                     ) : (
                         <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">

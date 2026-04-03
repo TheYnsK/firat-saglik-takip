@@ -1,5 +1,6 @@
 import { listMedicineTransactions } from "@/lib/services/medicine.service";
 import { MedicineStockMovementForm } from "@/components/medicines/medicine-stock-movement-form";
+import {formatDateTimeTR} from "@/lib/date";
 
 export default async function MedicineStockMovementsPage() {
     const items = await listMedicineTransactions();
@@ -39,8 +40,7 @@ export default async function MedicineStockMovementsPage() {
                         {items.map((item) => (
                             <tr key={item._id} className="border-t border-slate-100">
                                 <td className="px-4 py-3 text-slate-700">
-                                    {new Date(item.createdAt).toLocaleString("tr-TR")}
-                                </td>
+                                    {formatDateTimeTR(item.createdAt)}                                </td>
                                 <td className="px-4 py-3 font-semibold text-slate-900">
                                     {item.medicineName}
                                 </td>
